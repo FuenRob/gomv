@@ -213,14 +213,34 @@ func uninstallVersion(version string) {
 	fmt.Printf("Go version %s uninstalled successfully.\n", version)
 }
 
+func helpUser() {
+	fmt.Println(`
+Use: govm <command> [version]
+
+help
+	Get help ready and end with a successful exit
+
+list
+	List installed versions of go	
+use
+	use the specific version of go, if installed
+install
+	Install the specified version of go
+uninstall
+	uninstall the specific version of go`)
+	os.Exit(0)
+}
+
 func main() {
 	if len(os.Args) < 2 {
-		fmt.Println("Usage: govm <command> [version]")
+		fmt.Println("Usage: govm <command> [version] or <help> to more info")
 		return
 	}
 
 	command := os.Args[1]
 	switch command {
+	case "help":
+		helpUser()
 	case "list":
 		listVersions()
 	case "use":
