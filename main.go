@@ -12,6 +12,7 @@ import (
 
 var versionsDir = filepath.Join(os.Getenv("HOME"), ".govm", "versions") // Cambia a tu ruta de versiones
 const goBinDir = "/usr/local/go/bin"                                    // Ruta donde deben copiarse los archivos binarios
+const Version string = "0.0.1"
 
 // Función para asegurar que un directorio existe, creándolo si es necesario
 func ensureDirExists(dir string) error {
@@ -227,7 +228,9 @@ use
 install
 	Install the specified version of go
 uninstall
-	uninstall the specific version of go`)
+	uninstall the specific version of go
+version
+	Displays the version and exits successfully`)
 	os.Exit(0)
 }
 
@@ -241,6 +244,9 @@ func main() {
 	switch command {
 	case "help":
 		helpUser()
+	case "version":
+		fmt.Printf("govm %s\n", Version)
+		os.Exit(0)
 	case "list":
 		listVersions()
 	case "use":
