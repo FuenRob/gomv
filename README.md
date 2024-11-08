@@ -6,7 +6,7 @@ Para instalar govm, simplemente clona este repositorio y compila el proyecto:
 ```sh
 git clone https://github.com/tu_usuario/govm.git
 cd govm
-go build
+go build -o govm
 ```
 
 ## Uso
@@ -27,6 +27,13 @@ Lista todas las versiones de Go instaladas en tu sistema:
 
 ```sh
 govm list
+```
+
+### Crear carpeta contenedora de versiones
+Crea una carpeta `.govm/versions` en `/home`
+
+```sh
+govm config
 ```
 
 ### Usar una versión específica
