@@ -1,18 +1,24 @@
+// Copyright © 2024 GOMV
+// Licensed under the MIT License. See LICENSE file for details.
+
 package main
 
 import (
 	"archive/tar"
 	"compress/gzip"
 	"fmt"
+	"gomv/colors"
 	"io"
 	"net/http"
 	"os"
 	"path/filepath"
+
+	"github.com/fatih/color"
 )
 
 var versionsDir = filepath.Join(os.Getenv("HOME"), ".govm", "versions") // Cambia a tu ruta de versiones
 const goBinDir = "/usr/local/go/bin"                                    // Ruta donde deben copiarse los archivos binarios
-const Version string = "0.0.1"
+const Version string = "0.0.2"
 
 // Función para asegurar que un directorio existe, creándolo si es necesario
 func ensureDirExists(dir string) error {
@@ -27,12 +33,16 @@ func ensureDirExists(dir string) error {
 
 // Función para listar versiones instaladas
 func listVersions() {
-	fmt.Println("Listing installed Go versions...")
 	files, err := os.ReadDir(versionsDir)
 	if err != nil {
 		fmt.Println("Error reading versions:", err)
 		return
 	}
+	if len(files) == 0 {
+		fmt.Printf("Empty folder %s\n", versionsDir)
+		return
+	}
+	fmt.Println("Listing installed Go versions...")
 	for _, file := range files {
 		fmt.Println(file.Name())
 	}
@@ -215,28 +225,20 @@ func uninstallVersion(version string) {
 }
 
 func helpUser() {
-	fmt.Println(`
-Use: govm <command> [version]
-
-help
-	Get help ready and end with a successful exit
-
-list
-	List installed versions of go	
-use
-	use the specific version of go, if installed
-install
-	Install the specified version of go
-uninstall
-	uninstall the specific version of go
-version
-	Displays the version and exits successfully`)
+	colors.SetColor(color.FgGreen, "Use: govm <command> [version]\n")
+	colors.SetColor(color.FgGreen, "help \n\t Get help ready and end with a successful exit\n")
+	colors.SetColor(color.FgGreen, "config \n\t Create the folder in the home path\n")
+	colors.SetColor(color.FgGreen, "list \n\t List installed versions of go\n")
+	colors.SetColor(color.FgGreen, "use \n\t use the specific version of go, if installed\n")
+	colors.SetColor(color.FgGreen, "install \n\t Install the specified version of go\n")
+	colors.SetColor(color.FgGreen, "uninstall \n\t uninstall the specific version of go\n")
+	colors.SetColor(color.FgGreen, "version \n\t Displays the version and exits successfully\n")
 	os.Exit(0)
 }
 
 func main() {
 	if len(os.Args) < 2 {
-		fmt.Println("Usage: govm <command> [version] or <help> to more info")
+		colors.SetColor(32, "Usage: govm <command> [version] or <help> to more info\n")
 		return
 	}
 
@@ -247,6 +249,11 @@ func main() {
 	case "version":
 		fmt.Printf("govm %s\n", Version)
 		os.Exit(0)
+	case "config":
+		if err := ensureDirExists(versionsDir); err != nil {
+			fmt.Printf("Error creating config directory: %v\n", err)
+		}
+		ensureDirExists(versionsDir)
 	case "list":
 		listVersions()
 	case "use":
@@ -268,6 +275,7 @@ func main() {
 		}
 		uninstallVersion(os.Args[2])
 	default:
-		fmt.Println("Unknown command:", command)
+		colors.SetColor(color.FgRed, "Unknown command: %s\n", command)
+		os.Exit(1)
 	}
 }
