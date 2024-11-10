@@ -238,7 +238,7 @@ func helpUser() {
 
 func main() {
 	if len(os.Args) < 2 {
-		colors.SetColor(32, "Usage: govm <command> [version] or <help> to more info\n")
+		colors.SetColor(color.FgGreen, "Usage: govm <command> [version] or <help> to more info\n")
 		return
 	}
 
