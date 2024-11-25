@@ -12,6 +12,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// UseVersion activates a specified Go version by copying its binaries to the Go binary directory.
+// It requires administrator permissions to perform the copy operation.
+//
+// Parameters:
+//   - cmd: The cobra command that triggered this function.
+//   - args: A slice of arguments where the first element is the version to be activated.
+//
+// The function performs the following steps:
+//  1. Constructs the source directory path for the specified version's binaries.
+//  2. Checks if the source directory exists. If not, it prints an error message and returns.
+//  3. Copies the binaries from the source directory to the Go binary directory.
+//  4. Prints success or error messages based on the outcome of the copy operation.
 func UseVersion(cmd *cobra.Command, args []string) {
 	version := args[0]
 	srcDir := filepath.Join(config.VersionsDir, version, "go", "bin")

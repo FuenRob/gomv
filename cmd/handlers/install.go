@@ -13,6 +13,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// InstallVersion downloads and installs the specified version of Go.
+// It takes a Cobra command and a list of arguments, where the first argument is the Go version to install.
+// The function downloads the Go tarball from the official Go website, saves it to a temporary location,
+// extracts it to the configured versions directory, and sets up the Go environment.
+//
+// Parameters:
+//   - cmd: The Cobra command that triggered this function.
+//   - args: A list of arguments where the first argument is the Go version to install.
+//
+// Example usage:
+//
+//	InstallVersion(cmd, []string{"1.16.3"})
 func InstallVersion(cmd *cobra.Command, args []string) {
 	version := args[0]
 	url := fmt.Sprintf("https://golang.org/dl/go%s.linux-amd64.tar.gz", version)
