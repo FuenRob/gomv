@@ -46,5 +46,7 @@ func SetColor(c color.Attribute, format string, a ...interface{}) {
 	case 32:
 		green := color.New(mapC["green"]).PrintfFunc()
 		green(format, a...)
+	default:
+		color.New(c).Printf(format, a...)
 	}
 }

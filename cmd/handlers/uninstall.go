@@ -2,17 +2,22 @@ package handlers
 
 import (
 	"fmt"
+	"gomv/colors"
 	"gomv/config"
 	"os"
 	"path/filepath"
+
+	"github.com/fatih/color"
+	"github.com/spf13/cobra"
 )
 
-func UninstallVersion(version string) {
+func UninstallVersion(cmd *cobra.Command, args []string) {
+	version := args[0]
 	versionDir := filepath.Join(config.VersionsDir, version)
 
 	// Verificar si la versión existe
 	if _, err := os.Stat(versionDir); os.IsNotExist(err) {
-		fmt.Printf("Version %s is not installed.\n", version)
+		colors.SetColor(color.FgHiYellow, fmt.Sprintf("Version %s is not installed.\n", version))
 		return
 	}
 
@@ -20,9 +25,9 @@ func UninstallVersion(version string) {
 	fmt.Printf("Uninstalling Go version %s...\n", version)
 	err := os.RemoveAll(versionDir)
 	if err != nil {
-		fmt.Println("Error uninstalling version:", err)
+		colors.SetColor(color.FgHiRed, fmt.Sprintf("Error uninstalling version: %s\n", err))
 		return
 	}
 
-	fmt.Printf("Go version %s uninstalled successfully.\n", version)
+	colors.SetColor(color.FgHiGreen, fmt.Sprintf("Go version %s uninstalled successfully.\n", version))
 }
