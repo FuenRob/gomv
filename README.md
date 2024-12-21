@@ -4,7 +4,7 @@
 Para instalar govm, simplemente clona este repositorio y compila el proyecto:
 
 ```sh
-git clone https://github.com/tu_usuario/govm.git
+git clone https://github.com/FuenRob/govm.git
 cd govm
 go build -o govm
 ```
